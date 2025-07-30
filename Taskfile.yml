@@ -22,6 +22,7 @@ tasks:
       - "[ -f ~/.zshenv ] && mv ~/.zshenv ~/.zshenv{{.BACKUP_SUFFIX}} || true"
       - "[ -f ~/.aliases.zsh ] && mv ~/.aliases.zsh ~/.aliases.zsh{{.BACKUP_SUFFIX}} || true"
       - "[ -f ~/.functions.zsh ] && mv ~/.functions.zsh ~/.functions.zsh{{.BACKUP_SUFFIX}} || true"
+      - "[ -f ~/.zsh_plugins.txt ] && mv ~/.zsh_plugins.txt ~/.zsh_plugins.txt{{.BACKUP_SUFFIX}} || true"
 
   scaffold:
     desc: Scaffold new shell config files if needed
@@ -30,6 +31,7 @@ tasks:
       - "[ ! -f ~/.zshenv ] && cp {{.DOTFILES_DIR}}/.zshenv ~/ || true"
       - "[ ! -f ~/.aliases.zsh ] && cp {{.DOTFILES_DIR}}/.aliases.zsh ~/ || true"
       - "[ ! -f ~/.functions.zsh ] && cp {{.DOTFILES_DIR}}/.functions.zsh ~/ || true"
+      - "[ ! -f ~/.zsh_plugins.txt ] && cp {{.DOTFILES_DIR}}/.zsh_plugins.txt ~/ || true"
       - "cp {{.DOTFILES_DIR}}/.zprofile ~/ || true"
 
   restore:
@@ -39,3 +41,4 @@ tasks:
       - "[ -f ~/.zshenv{{.BACKUP_SUFFIX}} ] && mv ~/.zshenv{{.BACKUP_SUFFIX}} ~/.zshenv || true"
       - "[ -f ~/.aliases.zsh{{.BACKUP_SUFFIX}} ] && mv ~/.aliases.zsh{{.BACKUP_SUFFIX}} ~/.aliases.zsh || true"
       - "[ -f ~/.functions.zsh{{.BACKUP_SUFFIX}} ] && mv ~/.functions.zsh{{.BACKUP_SUFFIX}} ~/.functions.zsh || true"
+      - "[ -f ~/.zsh_plugins.txt{{.BACKUP_SUFFIX}} ] && mv ~/.zsh_plugins.txt{{.BACKUP_SUFFIX}} ~/.zsh_plugins.txt || true"
