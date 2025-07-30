@@ -1,0 +1,41 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  DOTFILES_DIR: "{{.HOME}}/Developer/Templates"
+  BACKUP_SUFFIX: ".bak"
+
+tasks:
+  init:
+    desc: Initialize shell dotfiles in home dir
+    status:
+      - "[[-f ~/.zshrc && -f ~/.zshenv]]"
+    cmds:
+      - task backup
+      - task scaffold
+
+  backup:
+    desc: Backup existing files if present
+    cmds:
+      - "[ -f ~/.zshrc ] && mv ~/.zshrc ~/.zshrc{{.BACKUP_SUFFIX}} || true"
+      - "[ -f ~/.zshenv ] && mv ~/.zshenv ~/.zshenv{{.BACKUP_SUFFIX}} || true"
+      - "[ -f ~/.aliases.zsh ] && mv ~/.aliases.zsh ~/.aliases.zsh{{.BACKUP_SUFFIX}} || true"
+      - "[ -f ~/.functions.zsh ] && mv ~/.functions.zsh ~/.functions.zsh{{.BACKUP_SUFFIX}} || true"
+
+  scaffold:
+    desc: Scaffold new shell config files if needed
+    cmds:
+      - "[ ! -f ~/.zshrc ] && cp {{.DOTFILES_DIR}}/.zshrc ~/ || true"
+      - "[ ! -f ~/.zshenv ] && cp {{.DOTFILES_DIR}}/.zshenv ~/ || true"
+      - "[ ! -f ~/.aliases.zsh ] && cp {{.DOTFILES_DIR}}/.aliases.zsh ~/ || true"
+      - "[ ! -f ~/.functions.zsh ] && cp {{.DOTFILES_DIR}}/.functions.zsh ~/ || true"
+      - "cp {{.DOTFILES_DIR}}/.zprofile ~/ || true"
+
+  restore:
+    desc: Restore backup files
+    cmds:
+      - "[ -f ~/.zshrc{{.BACKUP_SUFFIX}} ] && mv ~/.zshrc{{.BACKUP_SUFFIX}} ~/.zshrc || true"
+      - "[ -f ~/.zshenv{{.BACKUP_SUFFIX}} ] && mv ~/.zshenv{{.BACKUP_SUFFIX}} ~/.zshenv || true"
+      - "[ -f ~/.aliases.zsh{{.BACKUP_SUFFIX}} ] && mv ~/.aliases.zsh{{.BACKUP_SUFFIX}} ~/.aliases.zsh || true"
+      - "[ -f ~/.functions.zsh{{.BACKUP_SUFFIX}} ] && mv ~/.functions.zsh{{.BACKUP_SUFFIX}} ~/.functions.zsh || true"
